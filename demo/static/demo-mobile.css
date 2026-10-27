@@ -1,7 +1,7 @@
-/* Ajustes de celular so da demo (a demo usa a interface base,
-   sem o cabecalho responsivo da versao em producao). */
-@media (max-width:760px){
-  .demo-aviso{position:static !important;font-size:12px !important;padding:8px 12px !important}
+/* Ajustes de tela pequena e media so da demo (a demo usa a
+   interface base, sem o cabecalho responsivo da versao em
+   producao). */
+@media (max-width:1240px){
   .v9-topbar{
     height:auto !important;
     grid-template-columns:1fr auto !important;
@@ -9,7 +9,16 @@
     padding-top:12px !important;
     padding-bottom:0 !important;
   }
-  .v9-topnav{grid-column:1 / -1;order:3;margin:0 -16px;padding:0 8px}
+  .v9-topnav{grid-column:1 / -1;order:3}
   .v9-topnav button{padding-top:10px;padding-bottom:12px}
+}
+@media (max-width:760px){
+  .demo-aviso{font-size:12px !important;padding:8px 12px !important}
+  .v9-topnav{margin:0 -16px;padding:0 8px}
   .eps-v9-hero{padding:22px 18px 22px !important}
+}
+/* Lista de campanhas em tela media: so a "proxima acao" fica
+   ao lado do titulo (a regra base escondia uma coluna a menos). */
+@media (max-width:1100px) and (min-width:641px){
+  .v10-linha-col:not(.acao){display:none}
 }
