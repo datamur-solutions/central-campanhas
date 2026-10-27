@@ -1,0 +1,414 @@
+/* ==========================================================
+   DASHBOARD DE APURACAO
+   Segue a camada V10 (papel & grafite). O destaque fica no
+   funil: e a unica peca com cor cheia. O resto e papel, fio
+   e numero tabular. Prefixo apu- para nao colidir com o
+   dashboard de historico (dash-).
+   ========================================================== */
+
+.apu{
+  --apu-voxa:#6B21C8;
+  --apu-action:#1F7A8C;
+  --apu-prisma:#5F5D68;
+  --apu-gap:18px;
+  color:var(--c-ink);
+}
+
+/* ---------- Cabecalho ---------- */
+.apu-cabecalho{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:24px;
+  margin:4px 0 18px;
+}
+.apu-cabecalho h1{margin:0 0 4px;font-size:30px;font-weight:600;letter-spacing:-.025em}
+.apu-cabecalho p{margin:0;color:var(--c-ink-2);font-size:14px;max-width:62ch}
+.apu-atualizacao{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:var(--c-ink-2);
+  font-size:13px;
+  white-space:nowrap;
+}
+.apu-atualizacao strong{color:var(--c-ink);font-weight:600}
+.apu-btn{
+  border:1px solid var(--c-rule);
+  background:var(--c-surface);
+  color:var(--c-ink);
+  border-radius:8px;
+  padding:7px 12px;
+  font-size:13px;
+  font-weight:600;
+}
+.apu-btn:hover{border-color:var(--c-ink-3)}
+
+/* ---------- Filtros ---------- */
+.apu-filtros{
+  display:grid;
+  grid-template-columns:minmax(220px,2fr) repeat(3,minmax(130px,1fr)) minmax(140px,1fr) minmax(140px,1fr) auto;
+  gap:10px;
+  align-items:end;
+  padding:14px;
+  background:var(--c-surface);
+  border:1px solid var(--c-rule);
+  border-radius:12px;
+  margin-bottom:12px;
+}
+.apu-filtros label{margin:0 0 5px;font-size:12px;font-weight:600;color:var(--c-ink-2)}
+.apu-filtros select,
+.apu-filtros input{padding:8px 10px;border-radius:8px;border-color:var(--c-rule);font-size:13px}
+.apu-eps-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:var(--apu-gap)}
+.apu-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  border:1px solid var(--c-rule);
+  background:var(--c-surface);
+  color:var(--c-ink-2);
+  border-radius:999px;
+  padding:6px 13px;
+  font-size:13px;
+  font-weight:600;
+}
+.apu-chip i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.apu-chip.ativo{background:var(--c-ink);border-color:var(--c-ink);color:#fff}
+
+/* ---------- Grade ---------- */
+.apu-grade{
+  display:grid;
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  gap:var(--apu-gap);
+  margin-bottom:var(--apu-gap);
+}
+.apu-col-12{grid-column:span 12}
+.apu-col-8{grid-column:span 8}
+.apu-col-7{grid-column:span 7}
+.apu-col-6{grid-column:span 6}
+.apu-col-5{grid-column:span 5}
+.apu-col-4{grid-column:span 4}
+
+.apu-painel{
+  background:var(--c-surface);
+  border:1px solid var(--c-rule);
+  border-radius:12px;
+  padding:20px;
+  min-width:0;
+}
+.apu-painel-topo{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  margin-bottom:14px;
+}
+.apu-painel h2{margin:0;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.apu-painel-topo p{margin:3px 0 0;color:var(--c-ink-3);font-size:13px}
+
+.apu-alternar{display:inline-flex;border:1px solid var(--c-rule);border-radius:8px;overflow:hidden;flex-shrink:0}
+.apu-alternar button{
+  border:0;
+  background:var(--c-surface);
+  color:var(--c-ink-2);
+  padding:6px 10px;
+  font-size:12px;
+  font-weight:600;
+}
+.apu-alternar button + button{border-left:1px solid var(--c-rule)}
+.apu-alternar button.ativo{background:var(--c-ink);color:#fff}
+
+/* ---------- KPIs (funil completo, um quadro por etapa) ---------- */
+.apu-kpis{
+  display:grid;
+  grid-template-columns:repeat(7,minmax(0,1fr));
+  background:var(--c-surface);
+  border:1px solid var(--c-rule);
+  border-radius:12px;
+  margin-bottom:var(--apu-gap);
+  overflow:hidden;
+}
+.apu-kpis.com-meta{grid-template-columns:1.35fr repeat(7,minmax(0,1fr))}
+.apu-kpi{padding:18px 20px;min-width:0}
+.apu-kpi + .apu-kpi{border-left:1px solid var(--c-rule-soft)}
+.apu-kpi span{display:block;color:var(--c-ink-2);font-size:13px}
+.apu-kpi strong{
+  display:block;
+  font-size:28px;
+  font-weight:600;
+  letter-spacing:-.02em;
+  margin-top:4px;
+  line-height:1.1;
+}
+.apu-kpi small{display:block;margin-top:6px;color:var(--c-ink-3);font-size:12px}
+.apu-kpi-ind{margin:6px 0 0;color:var(--c-ink-3);font-size:12px;line-height:1.35;cursor:help}
+.apu-kpi-ind + .apu-kpi-ind{margin-top:2px}
+.apu-kpi-ind b{color:var(--c-ink);font-weight:600;font-size:13px}
+.apu-kpi-meta{display:flex;align-items:center;gap:16px}
+.apu-kpi-meta svg{flex-shrink:0}
+.apu-kpi-meta strong{font-size:34px}
+
+@media (max-width:1600px){
+  .apu-kpi{padding:16px 14px}
+  .apu-kpi strong{font-size:24px}
+  .apu-kpi-meta{gap:12px}
+  .apu-kpi-meta strong{font-size:28px}
+}
+
+/* ---------- Funil ---------- */
+.apu-funil svg{display:block;width:100%;height:auto}
+.apu-funil .etapa-nome{font-size:13px;fill:var(--c-ink-2)}
+.apu-funil .etapa-valor{font-size:16px;font-weight:600;fill:#fff}
+.apu-funil .etapa-taxa{font-size:12px;fill:var(--c-ink-2)}
+.apu-funil .etapa-taxa-forte{font-size:13px;font-weight:600;fill:var(--c-ink)}
+.apu-funil-nota{margin:10px 0 0;color:var(--c-ink-3);font-size:12px}
+.apu-aviso-funil{
+  margin:0 0 14px;
+  padding:10px 14px;
+  border:1px solid #E9D9B8;
+  border-left:3px solid var(--c-wait);
+  border-radius:8px;
+  background:#FBF6EC;
+  color:var(--c-ink-2);
+  font-size:13px;
+  line-height:1.5;
+}
+.apu-aviso-funil b{color:var(--c-ink)}
+
+@media (prefers-reduced-motion:no-preference){
+  .apu-funil .seg{transform-origin:center;animation:apu-abre .6s cubic-bezier(.2,.8,.2,1) both}
+  @keyframes apu-abre{from{transform:scaleX(.08);opacity:.2}to{transform:scaleX(1);opacity:1}}
+}
+
+/* ---------- Leituras (insights) ---------- */
+.apu-leituras{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.apu-leituras li{
+  display:grid;
+  grid-template-columns:4px 1fr;
+  gap:12px;
+  padding:12px 0;
+  font-size:14px;
+  line-height:1.45;
+}
+.apu-leituras li + li{border-top:1px solid var(--c-rule-soft)}
+.apu-leituras li::before{content:"";border-radius:2px;background:var(--c-ink-3)}
+.apu-leituras li.bom::before{background:var(--c-ok)}
+.apu-leituras li.atencao::before{background:var(--c-wait)}
+.apu-leituras li.critico::before{background:var(--c-stop)}
+.apu-leituras li.destaque::before{background:var(--c-accent)}
+.apu-leituras b{font-weight:600}
+
+/* ---------- Graficos de linha e barra ---------- */
+.apu-grafico{position:relative}
+.apu-grafico svg{display:block;width:100%;height:auto;overflow:visible}
+.apu-grafico .eixo{font-size:11px;fill:var(--c-ink-3)}
+.apu-grafico .grade{stroke:var(--c-rule-soft);stroke-width:1}
+.apu-grafico .guia{stroke:var(--c-ink-3);stroke-width:1;stroke-dasharray:3 3}
+.apu-dica{
+  position:absolute;
+  pointer-events:none;
+  background:var(--c-ink);
+  color:#fff;
+  border-radius:8px;
+  padding:8px 10px;
+  font-size:12px;
+  line-height:1.5;
+  min-width:130px;
+  transform:translate(-50%,-100%);
+  white-space:nowrap;
+  z-index:5;
+}
+.apu-dica b{display:block;font-weight:600;margin-bottom:2px}
+.apu-dica i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+
+.apu-legenda{display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;font-size:12px;color:var(--c-ink-2)}
+.apu-legenda span{display:inline-flex;align-items:center;gap:6px}
+.apu-legenda i{width:10px;height:10px;border-radius:3px;display:inline-block}
+
+/* ---------- Tabulacoes ---------- */
+.apu-tab{display:grid;grid-template-columns:220px 1fr;gap:24px;align-items:start}
+.apu-rosca{position:relative}
+.apu-rosca svg{display:block;width:100%;height:auto}
+.apu-rosca path{cursor:pointer;transition:opacity .15s}
+.apu-rosca path.apagada{opacity:.28}
+.apu-rosca-centro{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+  text-align:center;
+}
+.apu-rosca-centro strong{font-size:24px;font-weight:600}
+.apu-rosca-centro span{font-size:12px;color:var(--c-ink-3)}
+.apu-classes{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:2px}
+.apu-classes button{
+  width:100%;
+  display:grid;
+  grid-template-columns:10px 1fr auto;
+  gap:8px;
+  align-items:center;
+  border:0;
+  background:transparent;
+  padding:5px 6px;
+  border-radius:6px;
+  font-size:13px;
+  color:var(--c-ink);
+  text-align:left;
+}
+.apu-classes button:hover{background:var(--c-rule-soft)}
+.apu-classes button.ativo{background:var(--c-accent-soft)}
+.apu-classes i{width:10px;height:10px;border-radius:3px}
+.apu-classes em{font-style:normal;color:var(--c-ink-2)}
+
+.apu-detalhe h3{margin:0 0 10px;font-size:14px;font-weight:600}
+.apu-tab-eps{display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
+.apu-tab-eps-linha{display:grid;grid-template-columns:90px 1fr 56px;gap:12px;align-items:center;font-size:13px}
+.apu-tab-eps-linha b{font-weight:600}
+.apu-tab-eps-linha em{font-style:normal;text-align:right;font-weight:600}
+.apu-empilhada{display:flex;height:14px;border-radius:4px;overflow:hidden;background:var(--c-rule-soft)}
+.apu-empilhada i{display:block;height:100%}
+.apu-empilhada i + i{border-left:1px solid #fff}
+.apu-barras{display:flex;flex-direction:column;gap:9px}
+.apu-barra-linha{display:grid;grid-template-columns:minmax(0,1fr) 120px;gap:4px 12px;align-items:center}
+.apu-barra-linha span{font-size:13px;color:var(--c-ink);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.apu-barra-linha strong{font-size:13px;font-weight:600;text-align:right}
+.apu-barra-trilho{grid-column:1/-1;height:6px;border-radius:3px;background:var(--c-rule-soft);overflow:hidden}
+.apu-barra-trilho i{display:block;height:100%;border-radius:3px}
+
+/* ---------- Atingimento por EPS ---------- */
+.apu-ating{display:flex;flex-direction:column;gap:16px}
+.apu-ating-linha{display:grid;grid-template-columns:110px 1fr 90px;gap:12px;align-items:center;font-size:13px}
+.apu-ating-linha b{font-weight:600}
+.apu-ating-linha em{font-style:normal;text-align:right;font-weight:600}
+.apu-ating-trilho{position:relative;height:12px;background:var(--c-rule-soft);border-radius:6px}
+.apu-ating-trilho i{position:absolute;inset:0 auto 0 0;border-radius:6px}
+.apu-ating-trilho u{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--c-ink);text-decoration:none}
+.apu-ating-sub{grid-column:2/-1;margin-top:-8px;color:var(--c-ink-3);font-size:12px}
+
+/* ---------- Tabela de campanhas ---------- */
+.apu-tabela-wrap{overflow-x:auto}
+.apu-tabela{width:100%;border-collapse:collapse;font-size:13px}
+.apu-tabela th{
+  text-align:right;
+  font-size:12px;
+  font-weight:600;
+  color:var(--c-ink-2);
+  text-transform:none;
+  padding:9px 10px;
+  border-bottom:1px solid var(--c-rule);
+  white-space:nowrap;
+}
+.apu-tabela td{text-align:right;padding:10px;border-bottom:1px solid var(--c-rule-soft);white-space:nowrap}
+.apu-tabela th:first-child,.apu-tabela td:first-child,
+.apu-tabela th:nth-child(2),.apu-tabela td:nth-child(2),
+.apu-tabela th:nth-child(3),.apu-tabela td:nth-child(3){text-align:left}
+.apu-tabela tbody tr{cursor:pointer}
+.apu-tabela tbody tr:hover{background:var(--c-paper)}
+.apu-tabela td small{display:block;color:var(--c-ink-3);font-size:12px;max-width:260px;overflow:hidden;text-overflow:ellipsis}
+.apu-status{display:inline-block;border-radius:999px;padding:3px 9px;font-size:12px;font-weight:600}
+.apu-status.FINAL{background:#E6F2EC;color:var(--c-ok)}
+.apu-status.PARCIAL{background:#F7EEDC;color:var(--c-wait)}
+.apu-indisp{color:var(--c-ink-3)}
+
+/* ---------- Pendencias do robo ---------- */
+.apu-pend{list-style:none;margin:0;padding:0}
+.apu-pend li{display:grid;grid-template-columns:96px 1fr auto;gap:12px;padding:10px 0;font-size:13px;align-items:baseline}
+.apu-pend li + li{border-top:1px solid var(--c-rule-soft)}
+.apu-pend b{font-weight:600}
+.apu-pend span{color:var(--c-ink-3);font-size:12px}
+.apu-pend .tipo{font-size:12px;font-weight:600;color:var(--c-wait)}
+.apu-pend .tipo.ERRO{color:var(--c-stop)}
+
+/* ---------- Estados ---------- */
+.apu-vazio{
+  padding:48px 24px;
+  text-align:center;
+  color:var(--c-ink-2);
+  background:var(--c-surface);
+  border:1px dashed var(--c-rule);
+  border-radius:12px;
+}
+.apu-vazio h2{margin:0 0 6px;color:var(--c-ink)}
+.apu-vazio p{margin:0 auto;max-width:56ch}
+.apu-sem-dado{color:var(--c-ink-3);font-size:13px;padding:24px 0;text-align:center}
+
+/* ---------- Responsivo ---------- */
+@media (max-width:1180px){
+  .apu-filtros{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .apu-kpis,.apu-kpis.com-meta{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .apu-kpi:nth-child(4n+1){border-left:0}
+  .apu-kpi:nth-child(n+5){border-top:1px solid var(--c-rule-soft)}
+  .apu-col-8,.apu-col-7,.apu-col-6,.apu-col-5,.apu-col-4{grid-column:span 12}
+}
+@media (max-width:720px){
+  .apu-cabecalho{flex-direction:column;align-items:flex-start}
+  .apu-filtros{grid-template-columns:1fr 1fr}
+  .apu-kpis,.apu-kpis.com-meta{grid-template-columns:1fr 1fr}
+  .apu-kpi{border-left:0 !important;border-top:1px solid var(--c-rule-soft)}
+  .apu-tab{grid-template-columns:1fr}
+  .apu-ating-linha{grid-template-columns:80px 1fr 70px}
+}
+
+/* ---------- Tentativas por CPF ---------- */
+.apu-tent{margin-top:18px;padding-top:16px;border-top:1px solid var(--c-rule-soft)}
+.apu-tent-topo{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.apu-tent-topo h3{margin:0;font-size:14px;font-weight:600}
+.apu-tent-topo span{font-size:13px;color:var(--c-ink-2)}
+.apu-tent-topo b{color:var(--c-ink);font-weight:600}
+.apu-tent-barra{display:flex;height:26px;border-radius:6px;overflow:hidden;background:var(--c-rule-soft)}
+.apu-tent-barra i{display:flex;align-items:center;justify-content:center;font-style:normal;font-size:12px;font-weight:600}
+.apu-tent-barra i + i{border-left:1px solid #fff}
+
+/* ---------- Indicadores do funil (padrao do time) ---------- */
+.apu-indicadores{
+  display:grid;
+  grid-template-columns:repeat(8,minmax(0,1fr));
+  background:var(--c-surface);
+  border:1px solid var(--c-rule);
+  border-radius:12px;
+  margin:-6px 0 var(--apu-gap);
+  overflow:hidden;
+}
+.apu-ind{padding:12px 16px;min-width:0}
+.apu-ind + .apu-ind{border-left:1px solid var(--c-rule-soft)}
+.apu-ind span{display:block;font-size:12px;font-weight:600;color:var(--c-ink-2)}
+.apu-ind strong{display:block;font-size:20px;font-weight:600;margin-top:2px;letter-spacing:-.01em}
+.apu-ind small{display:block;font-size:11px;color:var(--c-ink-3);margin-top:2px}
+@media (max-width:1180px){
+  .apu-indicadores{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .apu-ind:nth-child(5){border-left:0}
+  .apu-ind:nth-child(n+5){border-top:1px solid var(--c-rule-soft)}
+}
+@media (max-width:720px){
+  .apu-indicadores{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .apu-ind{border-left:0 !important;border-top:1px solid var(--c-rule-soft)}
+}
+
+/* ---------- Funil por EPS (formato do relatorio do time) ---------- */
+.apu-padrao{width:100%;border-collapse:collapse;font-size:13px}
+.apu-padrao th{
+  background:#7C4BC9;color:#fff;font-weight:600;font-size:12px;letter-spacing:.02em;
+  padding:9px 12px;text-align:right;white-space:nowrap;
+}
+.apu-padrao th:first-child{text-align:left;border-top-left-radius:8px}
+.apu-padrao th:last-child{border-top-right-radius:8px}
+.apu-padrao th.total{background:#5E2BB0}
+.apu-padrao td{padding:7px 12px;text-align:right;border-bottom:1px solid var(--c-rule-soft);white-space:nowrap}
+.apu-padrao td:first-child{text-align:left;font-weight:600;color:var(--c-ink)}
+.apu-padrao td.total{font-weight:600;background:var(--c-paper)}
+.apu-padrao tr:nth-child(even) td{background:rgba(0,0,0,.018)}
+.apu-padrao tr:nth-child(even) td.total{background:var(--c-paper)}
+.apu-padrao tr.ind td{color:var(--c-ink-2)}
+.apu-padrao tr.ind td:first-child{color:var(--c-ink)}
+.apu-padrao tr.ind:first-of-type td,
+.apu-padrao tr:not(.ind) + tr.ind td{border-top:2px solid var(--c-rule)}
+.apu-funil .etapa-valor.fora{fill:var(--c-ink)}
+
+/* Leituras em largura total: duas colunas */
+.apu-col-12 .apu-leituras{display:grid;grid-template-columns:1fr 1fr;column-gap:32px}
+.apu-col-12 .apu-leituras li + li{border-top:0}
+.apu-col-12 .apu-leituras li{border-bottom:1px solid var(--c-rule-soft)}
+@media (max-width:900px){.apu-col-12 .apu-leituras{grid-template-columns:1fr}}

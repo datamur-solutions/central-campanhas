@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: central-campanhas
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    healthCheckPath: /health

@@ -1,0 +1,90 @@
+/* ==========================================================
+   CELULAR
+   Ajustes so para telas estreitas. Carregado por ultimo, por
+   isso vence as camadas anteriores sem mexer nelas. No
+   computador nada muda.
+   ========================================================== */
+
+@media (max-width:760px){
+
+  /* iOS da zoom ao focar campo com fonte menor que 16px */
+  input, select, textarea{font-size:16px !important}
+
+  /* ---------- Menu do topo: rola de lado, sem cortar ---------- */
+  .v9-topnav{
+    overflow-x:auto;
+    overflow-y:hidden;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+    scroll-snap-type:x proximity;
+  }
+  .v9-topnav::-webkit-scrollbar{display:none}
+  .v9-topnav button{white-space:nowrap;flex-shrink:0;scroll-snap-align:center}
+
+  /* ---------- Visao geral ---------- */
+  .v10-acoes{grid-template-columns:1fr !important}
+  .v10-acao{min-height:0 !important;padding:14px 16px !important;border-right:0 !important;border-bottom:1px solid var(--c-rule-soft)}
+  .v9-hero h1{font-size:28px !important;line-height:1.15}
+
+  /* ---------- Filtros recolhiveis (botao criado pelo mobile.js) ---------- */
+  .mob-filtro-toggle{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    width:100%;margin:0 0 10px;padding:12px 14px;
+    border:1px solid var(--c-rule);border-radius:10px;
+    background:var(--c-surface);color:var(--c-ink);
+    font:inherit;font-size:14px;font-weight:600;
+  }
+  .mob-filtro-toggle small{font-weight:500;color:var(--c-ink-3);font-size:12px}
+  .mob-filtro-toggle::after{content:"▾";color:var(--c-ink-3)}
+  .mob-filtro-toggle.aberto::after{content:"▴"}
+  .mob-filtro-fechado{display:none !important}
+
+  /* ---------- Aba Dashboard (apuracao) ---------- */
+  .apu-cabecalho{flex-direction:column;align-items:flex-start !important;gap:10px !important}
+  .apu-cabecalho h1{font-size:24px !important}
+  .apu-atualizacao{white-space:normal !important;flex-wrap:wrap}
+  .apu-filtros{grid-template-columns:1fr 1fr !important}
+  .apu-grade{grid-template-columns:1fr !important}
+  .apu-grade > *{grid-column:1 / -1 !important;min-width:0}
+  /* O desenho do funil fica ilegivel em 390px; os quadros
+     acima ja trazem as 7 etapas com os indicadores. */
+  .apu-funil{display:none !important}
+  .apu-painel-topo{flex-direction:column;align-items:stretch !important;gap:10px}
+  .apu-painel-topo > div:last-child{justify-content:flex-start !important}
+  .apu-alternar{flex-shrink:1;max-width:100%;overflow-x:auto}
+  .apu-alternar button{white-space:nowrap}
+  .apu-grafico{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .apu-grafico svg{min-width:620px}
+  .apu-padrao th:first-child,
+  .apu-padrao td:first-child{position:sticky;left:0;z-index:1}
+  .apu-padrao td:first-child{background:var(--c-surface)}
+  .apu-padrao tr:nth-child(even) td:first-child{background:#F7F6F4}
+
+  /* ---------- Historico ---------- */
+  .hist-cabecalho h1{font-size:24px !important}
+  .hist-kpis{grid-template-columns:repeat(2,minmax(0,1fr)) !important}
+  .hist-kpi{padding:12px 14px !important;border-left:0 !important;border-bottom:1px solid var(--c-rule-soft)}
+  .hist-kpi strong{font-size:22px !important}
+  .hist-secao{padding:16px !important}
+  .hist-destaque li{font-size:13px}
+  .hist-tabela-exec{min-width:640px}
+
+  /* ---------- Detalhe e cadastro (janela) em tela cheia ---------- */
+  .modal{padding:0 !important;align-items:stretch !important}
+  .modal-card,.cadastro-modal{
+    width:100% !important;max-width:100% !important;min-height:100vh;
+    border-radius:0 !important;padding:16px !important;
+  }
+  .tabs{flex-wrap:nowrap !important;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .tabs::-webkit-scrollbar{display:none}
+  .tabs button{white-space:nowrap;flex-shrink:0;font-size:13px !important;padding:10px !important}
+  .flow-track{overflow-x:auto;scrollbar-width:none}
+  .flow-track::-webkit-scrollbar{display:none}
+  .flow-step strong{font-size:10px !important;white-space:nowrap}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:10px !important}
+  .kpi strong{font-size:15px !important;overflow-wrap:anywhere}
+
+  /* ---------- Tabelas: sempre rolam de lado, nunca estouram ---------- */
+  .v9-table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .v9-table{min-width:560px}
+}

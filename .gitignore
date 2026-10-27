@@ -1,0 +1,11 @@
+.venv/
+.env
+*.env
+!.env.example
+__pycache__/
+*.pyc
+.vscode/
+app/robo_vm/logs/
+app/robo_vm/tmp/
+app/robo_vm/*token*.json
+app/robo_vm/chave_robo.txt

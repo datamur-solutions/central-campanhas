@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portal Interno | Central de Campanhas</title>
+<link rel="icon" href="/static/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/static/favicon-32.png">
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+<link rel="stylesheet" href="/static/styles.css">
+<link rel="stylesheet" href="/static/apuracao.css">
+<!-- Ajustes para celular: sempre por ultimo. -->
+<link rel="stylesheet" href="/static/mobile.css">
+</head>
+<body>
+
+<div id="app"></div>
+
+<!-- O dashboard usa funcoes do interno.js, entao carrega depois dele. -->
+<script src="/static/interno.js"></script>
+<script src="/static/dashboard.js"></script>
+<!-- Aba Dashboard (apuracao do robo). Tambem depende do interno.js. -->
+<script src="/static/apuracao.js"></script>
+<!-- Celular: filtros recolhiveis e menu do topo. -->
+<script src="/static/mobile.js"></script>
+</body>
+</html>

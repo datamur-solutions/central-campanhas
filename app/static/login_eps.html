@@ -1,0 +1,858 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Acessar portal — Central de Campanhas</title>
+<link rel="icon" href="/static/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/static/favicon-32.png">
+<link rel="apple-touch-icon" href="/static/apple-touch-icon.png">
+<link rel="stylesheet" href="/static/styles.css">
+<style>
+/* ==========================================================
+   LOGIN EPS — V10.5
+   Layout novo. A divisao 50/50 em duas colunas e o padrao
+   generico de tela de login; aqui a estrutura repete a do
+   proprio app — faixa escura no topo, papel embaixo — para
+   o login parecer o mesmo produto, nao uma pagina a parte.
+   ========================================================== */
+
+body{
+  margin:0;
+  background:var(--c-paper);
+  min-height:100vh;
+}
+
+.pagina{
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+}
+
+/* ---------- 1. Cabecalho escuro ---------- */
+.masthead{
+  position:relative;
+  padding:34px 0 132px;
+  background:var(--c-shell);
+  color:#fff;
+  overflow:hidden;
+}
+
+/* Malha de fios verticais: da materia a superficie e ecoa
+   a estrutura de colunas e reguas do app.                */
+.masthead::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:repeating-linear-gradient(
+    to right,
+    rgba(255,255,255,.05) 0 1px,
+    transparent 1px 96px
+  );
+  pointer-events:none;
+}
+
+.faixa{
+  position:relative;
+  width:min(1180px, calc(100% - 56px));
+  margin:0 auto;
+}
+
+.masthead-topo{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  padding-bottom:46px;
+  border-bottom:1px solid rgba(255,255,255,.13);
+}
+
+.marca{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+.marca img{width:112px;height:auto}
+.marca span{
+  padding-left:18px;
+  border-left:1px solid rgba(255,255,255,.2);
+  color:#A5A2AC;
+  font-size:14px;
+  line-height:1.35;
+}
+
+.masthead-etiqueta{
+  padding:7px 14px;
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:5px;
+  color:#C6C2CC;
+  font-size:13px;
+  font-weight:500;
+}
+
+.masthead-titulo{
+  padding-top:50px;
+  display:grid;
+  grid-template-columns:1.25fr 1fr;
+  align-items:end;
+  gap:48px;
+}
+
+.masthead-titulo h1{
+  max-width:15ch;
+  margin:0;
+  font-size:clamp(46px,5.4vw,84px);
+  font-weight:700;
+  line-height:.93;
+  letter-spacing:-.055em;
+  color:#fff;
+}
+.masthead-titulo h1 em{
+  display:block;
+  font-style:normal;
+  color:#B98CF2;
+}
+
+.masthead-titulo p{
+  margin:0 0 10px;
+  color:#A5A2AC;
+  font-size:17px;
+  line-height:1.6;
+}
+
+/* ---------- 2. Regua do fluxo ----------
+   Atravessa a fronteira entre o escuro e o papel. A peca
+   costura as duas zonas em vez de empilhar dois blocos, e
+   o conteudo dela e o proprio processo do sistema.        */
+.regua-area{
+  position:relative;
+  margin-top:-84px;
+  z-index:2;
+}
+
+.regua{
+  width:min(1180px, calc(100% - 56px));
+  margin:0 auto;
+  padding:26px 30px;
+  border:1px solid var(--c-rule);
+  border-radius:12px;
+  background:var(--c-surface);
+  box-shadow:0 18px 46px rgba(23,22,27,.16);
+}
+
+.regua-titulo{
+  margin-bottom:20px;
+  color:var(--c-ink-3);
+  font-size:13px;
+  font-weight:500;
+}
+
+.regua-etapas{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:0;
+}
+
+.etapa{
+  position:relative;
+  padding-right:22px;
+}
+
+/* Linha de conexao entre as etapas: o processo e uma
+   sequencia, e a linha diz isso sem texto.               */
+.etapa::after{
+  content:"";
+  position:absolute;
+  top:6px;
+  left:0;
+  right:0;
+  height:1px;
+  background:var(--c-rule);
+}
+.etapa:last-child::after{right:22px}
+
+.etapa i{
+  position:relative;
+  z-index:1;
+  display:block;
+  width:13px;
+  height:13px;
+  margin-bottom:16px;
+  border:3px solid var(--c-paper);
+  border-radius:50%;
+  background:var(--c-rule);
+  box-shadow:0 0 0 1px var(--c-rule);
+}
+.etapa:first-child i{
+  background:var(--c-accent);
+  box-shadow:0 0 0 1px var(--c-accent);
+}
+
+.etapa strong{
+  display:block;
+  font-size:15px;
+  font-weight:600;
+  letter-spacing:-.018em;
+}
+.etapa:first-child strong{color:var(--c-accent)}
+
+.etapa span{
+  display:block;
+  margin-top:5px;
+  color:var(--c-ink-2);
+  font-size:13px;
+  line-height:1.45;
+}
+
+/* ---------- 3. Area de acesso ---------- */
+.acesso{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:64px 28px 54px;
+}
+
+.caixa{
+  width:100%;
+  max-width:492px;
+  padding:46px 46px 40px;
+  border:1px solid var(--c-rule);
+  border-radius:12px;
+  background:var(--c-surface);
+}
+
+.caixa-kicker{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  margin-bottom:16px;
+  color:var(--c-ink-3);
+  font-size:14px;
+  font-weight:500;
+}
+.caixa-kicker::before{
+  content:"";
+  width:24px;
+  height:2px;
+  background:var(--c-accent);
+}
+
+.caixa h2{
+  margin:0;
+  font-size:40px;
+  font-weight:600;
+  line-height:1.02;
+  letter-spacing:-.045em;
+}
+
+.caixa > p{
+  margin:15px 0 30px;
+  color:var(--c-ink-2);
+  font-size:17px;
+  line-height:1.55;
+}
+
+.nota{
+  padding:18px 20px;
+  margin-bottom:24px;
+  border:1px solid var(--c-rule);
+  border-left:3px solid var(--c-accent);
+  border-radius:7px;
+  background:var(--c-paper);
+}
+.nota strong{
+  display:block;
+  font-size:16px;
+  font-weight:600;
+  letter-spacing:-.018em;
+}
+.nota span{
+  display:block;
+  margin-top:6px;
+  color:var(--c-ink-2);
+  font-size:14px;
+  line-height:1.5;
+}
+
+.campo label{
+  display:block;
+  margin-bottom:9px;
+  color:var(--c-ink-2);
+  font-size:14px;
+  font-weight:500;
+}
+
+.campo input{
+  width:100%;
+  height:56px;
+  padding:0 17px;
+  border:1px solid var(--c-rule);
+  border-radius:8px;
+  background:var(--c-surface);
+  font:inherit;
+  font-size:17px;
+  color:var(--c-ink);
+}
+.campo input::placeholder{color:var(--c-ink-3)}
+.campo input:focus{
+  border-color:var(--c-accent);
+  outline:none;
+  box-shadow:0 0 0 3px var(--c-accent-soft);
+}
+.campo input[aria-invalid="true"]{border-color:var(--c-stop)}
+
+/* O erro fica junto do campo que o causou, nao no topo da
+   pagina, para a pessoa nao ter que procurar.             */
+.erro{
+  display:none;
+  margin-top:10px;
+  color:var(--c-stop);
+  font-size:14px;
+  line-height:1.45;
+}
+.erro.visivel{display:block}
+
+.botao{
+  width:100%;
+  margin-top:20px;
+  min-height:56px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  border:1px solid var(--c-ink);
+  border-radius:8px;
+  background:var(--c-ink);
+  color:#fff;
+  font:inherit;
+  font-size:17px;
+  font-weight:500;
+  letter-spacing:-.015em;
+  cursor:pointer;
+  transition:background .14s ease;
+}
+.botao:hover{background:#000}
+.botao b{font-weight:400;font-size:18px}
+.botao:focus-visible{outline:2px solid var(--c-accent);outline-offset:3px}
+.botao[aria-busy="true"]{opacity:.7;pointer-events:none}
+
+.perfis{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:24px;
+}
+.perfis span{
+  padding:6px 13px;
+  border:1px solid var(--c-rule);
+  border-radius:5px;
+  color:var(--c-ink-2);
+  font-size:13px;
+  font-weight:500;
+}
+
+.aviso{
+  margin:26px 0 0;
+  padding-top:20px;
+  border-top:1px solid var(--c-rule-soft);
+  color:var(--c-ink-3);
+  font-size:13px;
+  line-height:1.55;
+}
+
+.rodape{
+  padding:0 28px 34px;
+  color:var(--c-ink-3);
+  font-size:13px;
+  text-align:center;
+}
+
+/* ---------- 4. Etapa da senha ----------
+   O e-mail ja informado vira uma linha fixa, com a opcao
+   de trocar. Os campos de senha seguem o mesmo desenho do
+   campo de e-mail, para a caixa parecer uma coisa so.     */
+.email-fixo{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:22px;
+  padding:14px 17px;
+  border:1px solid var(--c-rule);
+  border-radius:8px;
+  background:var(--c-paper);
+}
+.email-fixo span{
+  min-width:0;
+  overflow:hidden;
+  color:var(--c-ink);
+  font-size:16px;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.link{
+  flex:none;
+  padding:0;
+  border:0;
+  background:none;
+  color:var(--c-accent);
+  font:inherit;
+  font-size:14px;
+  font-weight:500;
+  text-decoration:underline;
+  text-underline-offset:3px;
+  cursor:pointer;
+}
+
+.campo + .campo{margin-top:18px}
+
+.dica{
+  margin-top:8px;
+  color:var(--c-ink-3);
+  font-size:13px;
+  line-height:1.45;
+}
+
+.erro.ok{color:var(--c-ok)}
+
+/* ---------- Responsivo ---------- */
+@media (max-width:1020px){
+  .masthead-titulo{grid-template-columns:1fr;gap:22px;align-items:start}
+  .masthead-titulo p{margin-bottom:0}
+  .regua-etapas{grid-template-columns:repeat(3,1fr);row-gap:26px}
+  .etapa:nth-child(n+4)::after{display:none}
+}
+@media (max-width:720px){
+  .masthead{padding:26px 0 108px}
+  .masthead-topo{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:16px;
+    padding-bottom:32px;
+  }
+  .masthead-titulo{padding-top:34px}
+  .masthead-titulo h1{font-size:38px}
+  .masthead-titulo p{font-size:15px}
+  .regua{padding:22px 20px}
+  .regua-etapas{grid-template-columns:1fr 1fr;row-gap:22px}
+  .etapa::after{display:none}
+  .acesso{padding:44px 20px 40px}
+  .caixa{padding:32px 26px}
+  .caixa h2{font-size:31px}
+  .caixa > p{font-size:15px}
+}
+</style>
+</head>
+<body>
+
+<div class="pagina">
+
+  <header class="masthead">
+    <div class="faixa">
+
+      <div class="masthead-topo">
+        <div class="marca">
+          <img src="/static/EduNova.png" alt="EduNova Educação">
+          <span>Portal<br>operacional</span>
+        </div>
+
+        <div class="masthead-etiqueta">Portal EPS</div>
+      </div>
+
+      <div class="masthead-titulo">
+        <h1>
+          Campanhas em
+          <em>execução.</em>
+        </h1>
+
+        <p>
+          As campanhas liberadas para a sua operação, com a
+          próxima ação de cada uma sempre visível.
+        </p>
+      </div>
+
+    </div>
+  </header>
+
+  <div class="regua-area">
+    <div class="regua">
+
+      <div class="regua-titulo">
+        O caminho de cada campanha na sua operação
+      </div>
+
+      <div class="regua-etapas">
+        <div class="etapa">
+          <i></i>
+          <strong>Recebida</strong>
+          <span>Campanha liberada pela EduNova</span>
+        </div>
+
+        <div class="etapa">
+          <i></i>
+          <strong>Plano operacional</strong>
+          <span>Equipe, discadora e abordagem</span>
+        </div>
+
+        <div class="etapa">
+          <i></i>
+          <strong>Go-live</strong>
+          <span>Checklist de prontidão</span>
+        </div>
+
+        <div class="etapa">
+          <i></i>
+          <strong>Execução</strong>
+          <span>Resultados atualizados</span>
+        </div>
+
+        <div class="etapa">
+          <i></i>
+          <strong>Encerramento</strong>
+          <span>Fechamento da operação</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <main class="acesso">
+    <div class="caixa">
+
+      <div class="caixa-kicker">Acesso EPS</div>
+
+      <h2 id="titulo">Acessar portal</h2>
+
+      <p id="subtitulo">
+        A Central identifica sua EPS pelo e-mail e libera
+        somente as campanhas destinadas à sua operação.
+      </p>
+
+      <div id="area"></div>
+
+      <div class="perfis">
+        <span>VOXA</span>
+        <span>Prisma</span>
+        <span>Lumen</span>
+      </div>
+
+      <p class="aviso">
+        Primeiro acesso? Informe seu e-mail e a Central envia a
+        solicitação para aprovação da EduNova. Depois da aprovação,
+        você cria sua senha no primeiro login.
+      </p>
+
+    </div>
+  </main>
+
+  <footer class="rodape">
+    Central de Campanhas Comerciais · EduNova Educação
+  </footer>
+
+</div>
+
+<script>
+/* ==========================================================
+   LOGIN EM DUAS ETAPAS NA MESMA CAIXA
+   1. e-mail   -> confere se o usuario existe
+   2. senha    -> entra; ou, no primeiro acesso, cria a senha
+   ========================================================== */
+
+const PORTAL = "eps";
+const DESTINO = "/portal-eps/app";
+const CHAVE_EMAIL = "portal_eps_email";
+
+const TEXTO_INICIAL = {
+  titulo: "Acessar portal",
+  subtitulo:
+    "A Central identifica sua EPS pelo e-mail e libera "
+    + "somente as campanhas destinadas à sua operação."
+};
+
+const area = document.getElementById("area");
+const titulo = document.getElementById("titulo");
+const subtitulo = document.getElementById("subtitulo");
+
+const esc = valor =>
+  String(valor ?? "").replace(
+    /[&<>"']/g,
+    c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c])
+  );
+
+async function post(url, corpo) {
+  const resposta = await fetch(url, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(corpo)
+  });
+
+  let dados = {};
+  try { dados = await resposta.json(); } catch {}
+
+  if (!resposta.ok) {
+    throw new Error(
+      typeof dados.detail === "string"
+        ? dados.detail
+        : "Não foi possível concluir. Tente novamente."
+    );
+  }
+
+  return dados;
+}
+
+function mostrarErro(mensagem, campo) {
+  const erro = document.getElementById("erro");
+  erro.textContent = mensagem;
+  erro.className = "erro visivel";
+
+  if (campo) {
+    campo.setAttribute("aria-invalid", "true");
+    campo.focus();
+  }
+}
+
+function mostrarOk(mensagem) {
+  const erro = document.getElementById("erro");
+  erro.textContent = mensagem;
+  erro.className = "erro visivel ok";
+}
+
+function limparErro() {
+  const erro = document.getElementById("erro");
+  erro.className = "erro";
+  area.querySelectorAll("input").forEach(i => i.removeAttribute("aria-invalid"));
+}
+
+function aoEnter(acao) {
+  area.querySelectorAll("input").forEach(campo => {
+    campo.oninput = limparErro;
+    campo.onkeydown = e => { if (e.key === "Enter") acao(); };
+  });
+}
+
+async function comBotao(botao, textoOcupado, tarefa) {
+  const original = botao.innerHTML;
+  botao.setAttribute("aria-busy", "true");
+  botao.innerHTML = textoOcupado;
+
+  try {
+    await tarefa();
+  } finally {
+    botao.removeAttribute("aria-busy");
+    botao.innerHTML = original;
+  }
+}
+
+/* ---------- Etapa 1: e-mail ---------- */
+
+function telaEmail(emailPrevio = "") {
+  titulo.textContent = TEXTO_INICIAL.titulo;
+  subtitulo.textContent = TEXTO_INICIAL.subtitulo;
+
+  area.innerHTML = `
+    <div class="campo">
+      <label for="email">E-mail corporativo</label>
+      <input
+        id="email"
+        type="email"
+        autocomplete="email"
+        placeholder="nome@empresa.com.br"
+        spellcheck="false"
+        value="${esc(emailPrevio)}"
+      >
+      <div class="erro" id="erro"></div>
+    </div>
+
+    <button class="botao" id="avancar">
+      Continuar
+      <b>&rsaquo;</b>
+    </button>
+  `;
+
+  const campo = document.getElementById("email");
+  const botao = document.getElementById("avancar");
+
+  const avancar = () => comBotao(botao, "Verificando...", async () => {
+    const email = campo.value.trim().toLowerCase();
+
+    if (!email) {
+      return mostrarErro("Informe seu e-mail corporativo.", campo);
+    }
+
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+      return mostrarErro("Esse e-mail não parece válido. Confira e tente de novo.", campo);
+    }
+
+    try {
+      /* Mesmo fluxo de antes: sem acesso aprovado, a Central
+         abre a solicitacao para a EduNova aprovar.            */
+      const pedido = await post("/api/external/access/request", {
+        email,
+        nome_usuario: null
+      });
+
+      const acesso = pedido.acesso || {};
+
+      if (acesso.status === "PENDENTE") {
+        return mostrarOk(
+          acesso.mensagem
+          || "Solicitação enviada para aprovação da EduNova. "
+             + "Você será avisado por e-mail quando for liberada."
+        );
+      }
+
+      if (acesso.status !== "APROVADO") {
+        return mostrarErro(
+          "Não foi possível concluir a solicitação de acesso.",
+          campo
+        );
+      }
+
+      const status = await post("/api/auth/senha/status", {portal: PORTAL, email});
+
+      if (!status.existe) {
+        return mostrarErro(
+          "Acesso aprovado, mas o cadastro ainda não foi concluído. "
+          + "Tente de novo em alguns minutos.",
+          campo
+        );
+      }
+
+      telaSenha(email, status.tem_senha);
+
+    } catch (erro) {
+      mostrarErro(erro.message, campo);
+    }
+  });
+
+  botao.onclick = avancar;
+  aoEnter(avancar);
+  campo.focus();
+}
+
+/* ---------- Etapa 2: senha ---------- */
+
+function telaSenha(email, temSenha) {
+  if (temSenha) {
+    titulo.textContent = "Digite sua senha";
+    subtitulo.textContent = "Confirme sua identidade para acessar o portal.";
+  } else {
+    titulo.textContent = "Crie sua senha";
+    subtitulo.textContent =
+      "É o seu primeiro acesso com senha. A partir de agora, "
+      + "você entra com e-mail e senha.";
+  }
+
+  area.innerHTML = `
+    <div class="email-fixo">
+      <span>${esc(email)}</span>
+      <button class="link" id="trocarEmail" type="button">Trocar</button>
+    </div>
+
+    ${
+      temSenha
+        ? `
+          <div class="campo">
+            <label for="senha">Senha</label>
+            <input id="senha" type="password" autocomplete="current-password">
+          </div>
+        `
+        : `
+          <div class="campo">
+            <label for="senha">Nova senha</label>
+            <input id="senha" type="password" autocomplete="new-password">
+            <div class="dica">Mínimo de 8 caracteres, com letras e números.</div>
+          </div>
+
+          <div class="campo">
+            <label for="confirmacao">Confirme a senha</label>
+            <input id="confirmacao" type="password" autocomplete="new-password">
+          </div>
+        `
+    }
+
+    <div class="erro" id="erro"></div>
+
+    <button class="botao" id="entrar">
+      ${temSenha ? "Entrar" : "Criar senha e entrar"}
+      <b>&rsaquo;</b>
+    </button>
+
+    ${
+      temSenha
+        ? `<button class="link" id="esqueci" type="button" style="margin-top:16px">Esqueci minha senha</button>`
+        : ""
+    }
+  `;
+
+  const senha = document.getElementById("senha");
+  const confirmacao = document.getElementById("confirmacao");
+  const botao = document.getElementById("entrar");
+
+  document.getElementById("trocarEmail").onclick = () => telaEmail(email);
+
+  const esqueci = document.getElementById("esqueci");
+
+  if (esqueci) {
+    esqueci.onclick = async () => {
+      esqueci.disabled = true;
+
+      try {
+        const resposta = await post("/api/auth/senha/esqueci", {portal: PORTAL, email});
+        mostrarOk(resposta.mensagem);
+      } catch (erro) {
+        mostrarErro(erro.message);
+      } finally {
+        esqueci.disabled = false;
+      }
+    };
+  }
+
+  const entrar = () => comBotao(botao, temSenha ? "Entrando..." : "Criando senha...", async () => {
+    if (!senha.value) {
+      return mostrarErro("Informe a senha.", senha);
+    }
+
+    try {
+      if (temSenha) {
+        await post("/api/auth/senha/entrar", {portal: PORTAL, email, senha: senha.value});
+
+      } else {
+        if (senha.value !== confirmacao.value) {
+          return mostrarErro("A confirmação não confere com a senha.", confirmacao);
+        }
+
+        await post("/api/auth/senha/criar", {portal: PORTAL, email, nova_senha: senha.value});
+      }
+
+      concluir(email);
+
+    } catch (erro) {
+      mostrarErro(erro.message, senha);
+      senha.value = "";
+      if (confirmacao) confirmacao.value = "";
+    }
+  });
+
+  botao.onclick = entrar;
+  aoEnter(entrar);
+  senha.focus();
+}
+
+function concluir(email) {
+  /* O portal le o e-mail para identificar o perfil, e a
+     marca de sessao confirma que a senha foi informada
+     nesta aba.                                           */
+  localStorage.setItem(CHAVE_EMAIL, email);
+  sessionStorage.setItem(`senha_ok_${PORTAL}`, email);
+
+  window.location.href = DESTINO;
+}
+
+telaEmail(localStorage.getItem(CHAVE_EMAIL) || "");
+</script>
+
+</body>
+</html>

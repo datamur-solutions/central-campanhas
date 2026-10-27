@@ -1,0 +1,6 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+databricks-sql-connector>=4.0.0
+databricks-sdk
+psycopg2-binary==2.9.9
